@@ -29,7 +29,7 @@ Presenta información reportada del RUNT sobre los vehículos involucrados en ac
 
 [VEHICULOS INVOLUCRADOS EN UN ACCIDENTE DE TRANSITO LEY 2251-2022 | Datos Abiertos Colombia](https://www.datos.gov.co/Transporte/VEHICULOS-INVOLUCRADOS-EN-UN-ACCIDENTE-DE-TRANSITO/6jmc-vaxk/data_preview)
 
-![image.png](image.png)
+![images/image.png](images/image.png)
 
 ### Mortalidad por Accidentes de Tránsito
 
@@ -37,7 +37,7 @@ Caracterización de accidentes y personas involucradas en choques, factores rele
 
 [Mortalidad por accidentes de tránsito | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Mortalidad-por-accidentes-de-tr-nsito/sp8g-ejs6/about_data)
 
-![image.png](image%201.png)
+![images/image.png](images/image%201.png)
 
 ### Siniestros Viales Consolidados Bogotá D.C.
 
@@ -45,13 +45,13 @@ Tablas desglosando siniestros viales en Bogotá con reportes de ubicación en di
 
 [Siniestros Viales Consolidados Bogotá D.C. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Siniestros-Viales-Consolidados-Bogot-D-C-/v7vs-yuff/about_data)
 
-![image.png](image%202.png)
+![images/image.png](images/image%202.png)
 
-![image.png](image%203.png)
+![images/image.png](images/image%203.png)
 
-![image.png](image%204.png)
+![images/image.png](images/image%204.png)
 
-![image.png](image%205.png)
+![images/image.png](images/image%205.png)
 
 ### Histórico Siniestros Bogotá D.C
 
@@ -61,7 +61,7 @@ Data ampliada en: [https://services2.arcgis.com/NEwhEo9GGSHXcRXV/ArcGIS/rest/ser
 
 [Historico Siniestros Bogotá D.C | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Historico-Siniestros-Bogot-D-C/3v2w-chcq/about_data)
 
-![image.png](image%206.png)
+![images/image.png](images/image%206.png)
 
 ### Accidentalidad/Seguridad_Vial
 
@@ -71,7 +71,7 @@ Data ampliada en: [https://sig.simur.gov.co/arcgis/rest/services](https://sig.si
 
 [Accidentalidad/Seguridad_Vial (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/Seguridad_Vial/FeatureServer)
 
-![image.png](image%207.png)
+![images/image.png](images/image%207.png)
 
 ### **Accidentalidad Publico**
 
@@ -79,7 +79,7 @@ Este servicio contiene la información georreferenciada de los Accidentes de Tra
 
 [Accidentalidad/WSAcidentalidad_Publico (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/WSAcidentalidad_Publico/FeatureServer)
 
-![image.png](image%208.png)
+![images/image.png](images/image%208.png)
 
 ## Variables Complementarias
 
@@ -91,7 +91,7 @@ Data ampliada en: [https://sig.simur.gov.co/arcgis/rest/services](https://sig.si
 
 [Red Semafórica de Bogotá D.C. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Red-Semaf-rica-de-Bogot-D-C-/2gfp-jiqi/about_data)
 
-![image.png](image%209.png)
+![images/image.png](images/image%209.png)
 
 ### Mosaico de fotografías aéreas. Bogotá D.C. Año 2014.
 
@@ -101,7 +101,7 @@ Data ampliada en: [https://serviciosgis.catastrobogota.gov.co/arcgis/rest/servic
 
 [Mosaico de fotografías aéreas. Bogotá D.C. Año 2014. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Mosaico-de-fotograf-as-a-reas-Bogot-D-C-A-o-2014-/g9h2-9nbx/about_data)
 
-![image.png](image%2010.png)
+![images/image.png](images/image%2010.png)
 
 ### Precipitación
 
@@ -110,10 +110,10 @@ También existen otros datasets con info de temp del aire y humedad del aire.
 
 [Precipitación | Datos Abiertos Colombia](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Precipitaci-n/s54a-sgyg/data_preview)
 
-![image.png](image%2011.png)
+![images/image.png](images/image%2011.png)
 
 ### **Malla Vial Siniestralidad**
 
 [Accidentalidad/MallaVialSiniestralidad (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/MallaVialSiniestralidad/FeatureServer)
 
-![image.png](image%2012.png)
+![images/image.png](images/image%2012.png)
