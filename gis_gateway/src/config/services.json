@@ -1,0 +1,17 @@
+[
+  {
+    "id": "red-semaforica",
+    "name": "Red Semafórica",
+    "url": "https://sig.simur.gov.co/arcgis/rest/services/DatosAbiertos/RedSemaforica/FeatureServer/0"
+  },
+  {
+    "id": "camaras",
+    "name": "Cámaras Salvavidas",
+    "url": "https://sig.simur.gov.co/arcgis/rest/services/DatosAbiertos/CamarasSalvavidas/FeatureServer/0"
+  },
+  {
+    "id": "accidentes",
+    "name": "accidentes",
+    "url": "https://services2.arcgis.com/NEwhEo9GGSHXcRXV/arcgis/rest/services/HistoricoSiniestros/FeatureServer/0"
+  }
+]

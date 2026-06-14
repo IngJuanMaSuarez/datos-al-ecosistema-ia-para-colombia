@@ -1,0 +1,24 @@
+{
+  "name": "gis-gateway",
+  "version": "1.0.0",
+  "description": "GIS Gateway - Sistema Predictivo de Accidentalidad Vial con Koop.js + H3",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": [
+    "gis",
+    "h3",
+    "koop",
+    "arcgis",
+    "accidentalidad",
+    "datos-al-ecosistema"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@koopjs/koop-core": "^10.4.0",
+    "h3-js": "^4.2.0",
+    "opencode-ai": "^1.16.2"
+  }
+}
