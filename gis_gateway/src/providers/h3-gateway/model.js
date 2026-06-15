@@ -102,6 +102,9 @@ class H3GatewayModel {
       return cellToFeature(cell, props)
     })
 
+    // 8. Enriquecer con probabilidad de riesgo y explicabilidad SHAP desde el motor de inferencia
+    await this._enrichWithInference(features)
+
     return {
       type: 'FeatureCollection',
       features,
@@ -328,6 +331,124 @@ class H3GatewayModel {
     } finally {
       clearTimeout(timer)
     }
+  }
+
+  /**
+   * Envía las características de los hexágonos al motor de inferencia (FastAPI)
+   * para obtener el riesgo y la explicación SHAP, enriqueciendo cada Feature.
+   *
+   * @param {Object[]} features - Lista de GeoJSON Features (hexágonos)
+   */
+  async _enrichWithInference(features) {
+    const inferenceUrl = process.env.INFERENCE_ENGINE_URL || 'http://localhost:8000';
+    
+    // Map features to the expected schema of the inference engine
+    const hexagonsPayload = features.map((f) => ({
+      hex_id: f.properties.hex_id,
+      count_red_semaforica: f.properties['count_red-semaforica'] || 0,
+      count_camaras: f.properties.count_camaras || 0,
+      count: f.properties.count || 0,
+    }));
+
+    try {
+      console.log(`[H3-Gateway] Enviando ${hexagonsPayload.length} hexágonos al Motor de Inferencia en ${inferenceUrl}...`);
+      
+      const response = await fetch(`${inferenceUrl}/predict`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ hexagons: hexagonsPayload }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Inferencia falló con HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      // Map predictions by hex_id for fast lookup
+      const predictionsMap = new Map();
+      if (data && data.predicciones) {
+        for (const pred of data.predicciones) {
+          predictionsMap.set(pred.hex_id, pred);
+        }
+      }
+
+      // Enrich features with predictions and friendly text explanation
+      for (const f of features) {
+        const pred = predictionsMap.get(f.properties.hex_id);
+        if (pred) {
+          f.properties.riesgo_prob = pred.riesgo_prob;
+          f.properties.shap_count_red_semaforica = pred.shap_values.count_red_semaforica || 0;
+          f.properties.shap_count_camaras = pred.shap_values.count_camaras || 0;
+          f.properties.shap_count = pred.shap_values.count || 0;
+          f.properties.explicacion_shap = this._generateShapExplanation(pred.riesgo_prob, pred.shap_values);
+        } else {
+          this._setFallbackProperties(f);
+        }
+      }
+      
+      console.log(`[H3-Gateway] Enriquecimiento con IA finalizado con éxito`);
+    } catch (err) {
+      console.error(`[H3-Gateway] Error llamando al motor de inferencia: ${err.message}. Usando fallbacks.`);
+      for (const f of features) {
+        this._setFallbackProperties(f);
+      }
+    }
+  }
+
+  /**
+   * Genera una explicación textual amigable en español sobre el aporte de cada variable
+   * al riesgo final de accidentalidad vial basada en los valores SHAP.
+   */
+  _generateShapExplanation(riesgoProb, shapValues) {
+    const riesgoPct = (riesgoProb * 100).toFixed(1);
+    const explanations = [];
+
+    const semaforosShap = shapValues.count_red_semaforica || 0;
+    const camarasShap = shapValues.count_camaras || 0;
+    const countShap = shapValues.count || 0;
+
+    // Red semafórica (count_red_semaforica)
+    if (semaforosShap < -0.01) {
+      explanations.push(`La cantidad de semáforos reduce el riesgo vial en un ${(Math.abs(semaforosShap) * 100).toFixed(1)}%`);
+    } else if (semaforosShap > 0.01) {
+      explanations.push(`La cantidad de semáforos incrementa el riesgo vial en un ${(semaforosShap * 100).toFixed(1)}%`);
+    } else {
+      explanations.push(`La red semafórica no influye de manera notable en el riesgo`);
+    }
+
+    // Cámaras salvavidas (count_camaras)
+    if (camarasShap < -0.01) {
+      explanations.push(`Las cámaras salvavidas disminuyen el riesgo vial en un ${(Math.abs(camarasShap) * 100).toFixed(1)}%`);
+    } else if (camarasShap > 0.01) {
+      explanations.push(`La presencia de cámaras salvavidas incrementa el riesgo vial en un ${(camarasShap * 100).toFixed(1)}%`);
+    } else {
+      explanations.push(`Las cámaras de seguridad vial no tienen impacto significativo`);
+    }
+
+    // Volumen total (count)
+    if (countShap < -0.01) {
+      explanations.push(`El volumen total de infraestructura y accidentes históricos disminuye la tendencia al riesgo en un ${(Math.abs(countShap) * 100).toFixed(1)}%`);
+    } else if (countShap > 0.01) {
+      explanations.push(`El volumen total de infraestructura y accidentes históricos incrementa la tendencia al riesgo en un ${(countShap * 100).toFixed(1)}%`);
+    } else {
+      explanations.push(`El historial de accidentes no influye significativamente en esta predicción`);
+    }
+
+    return `Riesgo predictivo de accidentes viales: ${riesgoPct}%. Detalle de explicabilidad (SHAP):\n- ${explanations.join('\n- ')}`;
+  }
+
+  /**
+   * Establece propiedades de predicción fallback por defecto si falla la comunicación.
+   */
+  _setFallbackProperties(f) {
+    f.properties.riesgo_prob = 0;
+    f.properties.shap_count_red_semaforica = 0;
+    f.properties.shap_count_camaras = 0;
+    f.properties.shap_count = 0;
+    f.properties.explicacion_shap = "Servicio de explicabilidad no disponible temporalmente. Se muestra información base.";
   }
 }
 
