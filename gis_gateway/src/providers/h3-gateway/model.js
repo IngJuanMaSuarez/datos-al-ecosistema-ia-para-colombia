@@ -96,7 +96,13 @@ class H3GatewayModel {
    */
   async _queryAndAggregate(service, bbox, hexagons, aggregated) {
     try {
-      const geojson = await this._fetchFeatureLayer(service.url, bbox)
+      let geojson
+      if (service.type === 'json') {
+        geojson = await this._fetchJsonSource(service, bbox)
+      } else {
+        geojson = await this._fetchFeatureLayer(service.url, bbox)
+      }
+
       const counts = aggregatePointsByHexagon(geojson, hexagons, H3_RESOLUTION)
       let totalAsignados = 0
 
@@ -139,6 +145,59 @@ class H3GatewayModel {
         throw new Error(`HTTP ${response.status} ${response.statusText}`)
       }
       return response.json()
+    } finally {
+      clearTimeout(timer)
+    }
+  }
+
+  /**
+   * Hace fetch a una fuente JSON plana (ej. API Socrata de datos.gov.co).
+   * Parsea los campos de latitud/longitud configurados, filtra por bounding box,
+   * y retorna un GeoJSON FeatureCollection con geometrías Point.
+   *
+   * @param {Object} service - Configuración del servicio con url, latField, lngField, limit, where
+   * @param {Object} bbox - { xmin, ymin, xmax, ymax }
+   * @returns {Promise<Object>} FeatureCollection GeoJSON
+   */
+  async _fetchJsonSource(service, bbox) {
+    const url = new URL(service.url)
+    url.searchParams.set('$limit', service.limit || 50000)
+
+    if (service.where) {
+      url.searchParams.set('$where', service.where)
+    }
+
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT)
+
+    try {
+      const response = await fetch(url.toString(), { signal: controller.signal })
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`)
+      }
+      const records = await response.json()
+
+      const latField = service.latField || 'latitud'
+      const lngField = service.lngField || 'longitud'
+
+      const features = records
+        .map((record) => {
+          const lat = parseFloat(record[latField])
+          const lng = parseFloat(record[lngField])
+          if (isNaN(lat) || isNaN(lng)) return null
+
+          // Filtrar por bounding box del lado del cliente
+          if (lat < bbox.ymin || lat > bbox.ymax || lng < bbox.xmin || lng > bbox.xmax) return null
+
+          return {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lng, lat] },
+            properties: { ...record },
+          }
+        })
+        .filter(Boolean)
+
+      return { type: 'FeatureCollection', features }
     } finally {
       clearTimeout(timer)
     }
