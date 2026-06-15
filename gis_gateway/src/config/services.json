@@ -24,6 +24,8 @@
     "url": "https://www.datos.gov.co/resource/s54a-sgyg.json",
     "latField": "latitud",
     "lngField": "longitud",
+    "valueField": "valorobservado",
+    "interpolation": true,
     "limit": 50000,
     "where": "municipio='BOGOTÁ D.C' AND fechaobservacion >= '2025-01-01T00:00:00.000'"
   }

@@ -1,6 +1,7 @@
 const services = require('../../config/services.json')
 const { getHexagonsInBbox, cellToFeature } = require('../../utils/h3-grid')
 const { aggregatePointsByHexagon } = require('../../utils/aggregator')
+const { interpolatePrecipitation, getHexagonPrecipitation } = require('../../utils/interpolator')
 
 // ---------------------------------------------------------------------------
 // Constantes
@@ -28,6 +29,12 @@ const FETCH_TIMEOUT = 30000
  * Modelo del provider H3 Gateway.
  * Koop llama a getData() cuando recibe una petición de tipo query al FeatureServer.
  *
+ * Flujo:
+ *   1. Genera hexágonos H3 dentro del bounding box
+ *   2. Servicios de conteo (accidentes, semáforos, cámaras): cuenta puntos por hexágono
+ *   3. Servicio de precipitación: interpola IDW y samplea centroide por hexágono
+ *   4. Retorna TODOS los hexágonos con conteos + precipitación promedio
+ *
  * URL de ejemplo:
  *   GET /h3-gateway/rest/services/h3-gateway/FeatureServer/0/query?f=geojson
  */
@@ -45,39 +52,55 @@ class H3GatewayModel {
     // 2. Generar hexágonos H3 que cubren el bounding box
     const hexagons = getHexagonsInBbox(bbox, H3_RESOLUTION)
 
-    // 3. Inicializar contadores por servicio para cada hexágono
+    // 3. Separar servicios de conteo vs. interpolación
+    const countServices = services.filter((s) => !s.interpolation)
+    const interpolationServices = services.filter((s) => s.interpolation)
+
+    // 4. Inicializar contadores por servicio para cada hexágono
     //    aggregated = { [cellId]: { [serviceId]: count, ... } }
     const aggregated = {}
     for (const h of hexagons) {
       aggregated[h] = {}
     }
 
-    // 4. Consultar cada servicio configurado en paralelo
-    await Promise.all(
-      services.map((service) => this._queryAndAggregate(service, bbox, hexagons, aggregated))
-    )
+    // 5. Almacenar precipitación interpolada por hexágono
+    //    precipitation = { [cellId]: valorPromedio }
+    let precipitation = {}
+    for (const h of hexagons) {
+      precipitation[h] = 0
+    }
 
-    // 5. Construir FeatureCollection GeoJSON con conteo por servicio
-    const features = hexagons
-      .filter((cell) => {
-        const cellCounts = aggregated[cell]
-        return Object.values(cellCounts).some((v) => v > 0)
-      })
-      .map((cell) => {
-        const cellCounts = aggregated[cell]
+    // 6. Ejecutar en paralelo: conteos + interpolaciones
+    await Promise.all([
+      // Conteos de puntos (accidentes, semáforos, cámaras)
+      ...countServices.map((service) =>
+        this._queryAndAggregate(service, bbox, hexagons, aggregated)
+      ),
+      // Interpolación de precipitación
+      ...interpolationServices.map((service) =>
+        this._interpolateAndAssign(service, bbox, hexagons, precipitation)
+      ),
+    ])
 
-        // Construir propiedad `count_{service.id}` para cada servicio
-        const props = { hex_id: cell }
-        let total = 0
-        for (const service of services) {
-          const c = cellCounts[service.id] || 0
-          props[`count_${service.id}`] = c
-          total += c
-        }
-        props.count = total
+    // 7. Construir FeatureCollection GeoJSON con TODOS los hexágonos
+    const features = hexagons.map((cell) => {
+      const cellCounts = aggregated[cell]
 
-        return cellToFeature(cell, props)
-      })
+      // Construir propiedad `count_{service.id}` para cada servicio de conteo
+      const props = { hex_id: cell }
+      let total = 0
+      for (const service of countServices) {
+        const c = cellCounts[service.id] || 0
+        props[`count_${service.id}`] = c
+        total += c
+      }
+      props.count = total
+
+      // Añadir precipitación promedio interpolada
+      props.precipitacion_promedio = precipitation[cell] || 0
+
+      return cellToFeature(cell, props)
+    })
 
     return {
       type: 'FeatureCollection',
@@ -92,7 +115,7 @@ class H3GatewayModel {
   }
 
   /**
-   * Consulta un servicio FeatureServer externo y agrega los puntos a la grilla.
+   * Consulta un servicio de conteo y agrega los puntos a la grilla H3.
    */
   async _queryAndAggregate(service, bbox, hexagons, aggregated) {
     try {
@@ -116,6 +139,61 @@ class H3GatewayModel {
       )
     } catch (err) {
       console.error(`[H3-Gateway] Error en "${service.name}": ${err.message}`)
+    }
+  }
+
+  /**
+   * Consulta el servicio de precipitación, interpola con IDW,
+   * y asigna el valor promedio a cada hexágono H3.
+   *
+   * @param {Object} service - Config del servicio con url, valueField, etc.
+   * @param {Object} bbox - { xmin, ymin, xmax, ymax }
+   * @param {string[]} hexagons - Índices H3 del área
+   * @param {Object} precipitation - Mapa { cellId: valor } a llenar
+   */
+  async _interpolateAndAssign(service, bbox, hexagons, precipitation) {
+    try {
+      // 1. Obtener datos brutos de estaciones de TODA Bogotá (sin filtro bbox)
+      //    Para IDW se necesitan todas las estaciones como input, no solo las del área de interés
+      const geojson = await this._fetchJsonSourceNoBbox(service)
+
+      console.log(
+        `[H3-Gateway] "${service.name}": ${geojson?.features?.length || 0} estaciones obtenidas`
+      )
+
+      if (!geojson || !geojson.features || geojson.features.length === 0) {
+        console.warn(`[H3-Gateway] Sin datos de "${service.name}" para interpolar`)
+        return
+      }
+
+      // 2. Generar superficie interpolada IDW
+      const valueField = service.valueField || 'valorobservado'
+      const interpolatedGrid = interpolatePrecipitation(geojson, bbox, valueField)
+
+      if (!interpolatedGrid) {
+        console.warn(`[H3-Gateway] Interpolación falló para "${service.name}"`)
+        return
+      }
+
+      // 3. Samplear valor interpolado en el centroide de cada hexágono
+      const hexValues = getHexagonPrecipitation(
+        interpolatedGrid,
+        hexagons,
+        H3_RESOLUTION,
+        valueField
+      )
+
+      // 4. Asignar valores al mapa de precipitación
+      for (const [cell, value] of Object.entries(hexValues)) {
+        precipitation[cell] = value
+      }
+
+      const nonZero = Object.values(hexValues).filter((v) => v > 0).length
+      console.log(
+        `[H3-Gateway] "${service.name}": interpolación completa, ${nonZero}/${hexagons.length} hexágonos con valor > 0`
+      )
+    } catch (err) {
+      console.error(`[H3-Gateway] Error interpolando "${service.name}": ${err.message}`)
     }
   }
 
@@ -188,6 +266,55 @@ class H3GatewayModel {
 
           // Filtrar por bounding box del lado del cliente
           if (lat < bbox.ymin || lat > bbox.ymax || lng < bbox.xmin || lng > bbox.xmax) return null
+
+          return {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lng, lat] },
+            properties: { ...record },
+          }
+        })
+        .filter(Boolean)
+
+      return { type: 'FeatureCollection', features }
+    } finally {
+      clearTimeout(timer)
+    }
+  }
+
+  /**
+   * Hace fetch a una fuente JSON plana SIN filtrar por bounding box.
+   * Retorna TODOS los puntos con coordenadas válidas de la fuente.
+   * Usado para interpolación donde se necesitan todas las estaciones como input IDW.
+   *
+   * @param {Object} service - Configuración del servicio
+   * @returns {Promise<Object>} FeatureCollection GeoJSON
+   */
+  async _fetchJsonSourceNoBbox(service) {
+    const url = new URL(service.url)
+    url.searchParams.set('$limit', service.limit || 50000)
+
+    if (service.where) {
+      url.searchParams.set('$where', service.where)
+    }
+
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT)
+
+    try {
+      const response = await fetch(url.toString(), { signal: controller.signal })
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`)
+      }
+      const records = await response.json()
+
+      const latField = service.latField || 'latitud'
+      const lngField = service.lngField || 'longitud'
+
+      const features = records
+        .map((record) => {
+          const lat = parseFloat(record[latField])
+          const lng = parseFloat(record[lngField])
+          if (isNaN(lat) || isNaN(lng)) return null
 
           return {
             type: 'Feature',

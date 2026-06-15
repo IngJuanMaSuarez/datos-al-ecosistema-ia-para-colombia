@@ -18,6 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@koopjs/koop-core": "^10.4.0",
+    "@turf/turf": "^7.3.5",
     "h3-js": "^4.2.0",
     "opencode-ai": "^1.16.2"
   }
