@@ -15,7 +15,6 @@
 | Mosaico de fotografías aéreas. Bogotá D.C. Año 2014 | Ya está espacializado | Rest, WMS |  | 2014 | Bogotá |
 | Precipitación | Geocodificar Coordeanadas | API, CSV | Año mes día y hora | 2018-2026 | Filtro a Bogotá |
 | Malla Vial Siniestralidad | Ya está espacializado | Rest |  |  | Bogotá |
-| Accidentalidad Publico | Ya está espacializado | Rest | Año mes día y hora | 2007-2026 | Bogotá |
 
 ---
 
