@@ -4,7 +4,8 @@
 ## 1. Visión General del Sistema
 El presente documento describe la arquitectura diseñada para el sistema predictivo de accidentalidad vial. El enfoque tecnológico garantiza la no duplicidad de datos estáticos, el uso de Inteligencia Artificial al vuelo y la escalabilidad del sistema, cumpliendo con los estándares de evaluación del concurso y la metodología CRISP-ML.
 
-<img width="8084" height="7393" alt="Usuario Final Experience-2026-07-15-004712" src="https://github.com/user-attachments/assets/85f21740-396f-477f-8f02-34a5717be96e" />
+<img width="8100" height="7393" alt="Usuario Final Experience-2026-07-15-005151" src="https://github.com/user-attachments/assets/f6ebff85-b548-4c2d-bc99-fb4d6bf014c6" />
+
 
 # Estructura de Capas del Sistema (Metodología CRISP-ML(Q))
 
@@ -17,7 +18,7 @@ La arquitectura de la solución se encuentra estructurada bajo el estándar de c
 * **Descripción:** Fuentes de datos abiertos y oficiales que se cargan de manera estática o en frío para constituir los insumos base del análisis territorial.
 * **Fuentes de Datos Exclusivas:**
   * **Red Semafórica:** Capa geográfica de la infraestructura de dispositivos de control de tráfico.
-  * **Accidente:** Registros puntuales de eventos de siniestralidad vial georreferenciados.
+  * **Hospitales:** Registros puntuales de eventos de siniestralidad vial georreferenciados.
   * **Malla Vial:** Geometría vial y ejes de calles, avenidas y corredores viales.
   * **Accidentes:** Datos tabulares e históricos consolidados de siniestros viales.
 
@@ -46,4 +47,4 @@ La arquitectura de la solución se encuentra estructurada bajo el estándar de c
 * **Componentes Clave (Custom Widgets en TypeScript):**
   * **Visor de Mapa Web (ReactTS):** Renderiza el Web Map interactivo que contiene las capas de **Red Semafórica, Accidente, Malla Vial y Accidentes**. Modifica la memoria interna en el lado del cliente (*Client-Side Memory*) de acuerdo con las interacciones del mapa.
   * **Widget Custom de DBSCAN:** Interfaz gráfica donde el usuario parametriza el análisis, consume la API en Node.js para computar el DBSCAN con Turf.js y despliega instantáneamente las zonas críticas de concentración de accidentes en la pantalla.
-  * **Asistente con IA / Chat Bot (FANZ-XA):** Integrado directamente en el visor de Experience Builder. Lee en caliente la memoria de los atributos del mapa en el cliente para comprender el contexto espacial del usuario y la información de las capas activas, permitiéndole interactuar en lenguaje natural y obtener respuestas inteligentes del territorio.
+  * **Asistente con IA / Chat Bot:** Integrado directamente en el visor de Experience Builder. Lee en caliente la memoria de los atributos del mapa en el cliente para comprender el contexto espacial del usuario y la información de las capas activas, permitiéndole interactuar en lenguaje natural y obtener respuestas inteligentes del territorio.
