@@ -1,19 +1,20 @@
 # Concurso Datos al Ecosistema 2026: IA para Colombia
 
+## Propuesta: Sistema de análisis y agrupamiento de accidentalidad vial basado en inteligencia artificial y análisis espacial
+
+**Desarrollo de un sistema de análisis espacial de accidentalidad vial** que permite identificar y agrupar zonas urbanas con alta densidad de siniestros para apoyar la toma de decisiones preventivas. El sistema implementa una arquitectura desacoplada de alto rendimiento que integra de manera directa datos geográficos oficiales correspondientes a la **Red Semafórica, Accidente, Malla Vial y Accidentes**. 
+
+Bajo el estándar metodológico **CRISP-ML(Q)** (abarcando desde la comprensión del negocio y de los datos hasta el despliegue en producción), la iniciativa procesa la información conectando las capas geográficas dinámicas de la pasarela cloud con un backend analítico de Machine Learning especializado en clustering espacial. Esto permite detectar de forma automatizada patrones territoriales de riesgo, priorizar intervenciones viales y visualizar los resultados de manera inmediata a través de una aplicación web interactiva basada en SIG.
+
 ---
 
-# Propuesta: Sistema predictivo de accidentalidad vial basado en inteligencia artificial y análisis espacial
+## Producto: Plataforma web geoespacial para el análisis y clustering de accidentalidad vial
 
-Desarrollo de un sistema de predicción espacial de accidentalidad vial que permite identificar y agrupar zonas urbanas con alta probabilidad de ocurrencia de siniestros antes de que estos sucedan. El sistema implementa una arquitectura desacoplada de alto rendimiento que orquesta e integra de forma asíncrona datos abiertos de gobierno (histórico de siniestros, red semafórica e infraestructura vial) con variables climáticas. Mediante la metodología estándar CRISP-DM (desde la preparación de datos hasta el despliegue), la iniciativa procesa la información a través de un backend dual (Node.js/Koop.js para indexación espacial en grilla y Python/FastAPI para cómputo de machine learning) para detectar patrones territoriales de riesgo de siniestralidad. Esto permite priorizar intervenciones urbanas preventivas y visualizar resultados analíticos de manera inmediata mediante una aplicación web interactiva georreferenciada.
-
-# Producto: Plataforma web geoespacial para predicción de accidentalidad vial
-
-El producto consiste en una aplicación web interactiva de alto impacto desarrollada en ArcGIS Experience Builder Developer Edition (TypeScript/React). Esta plataforma consume servicios geográficos dinámicos publicados de forma segura en la pasarela cloud de ArcGIS Online, permitiendo al usuario final interactuar directamente con mapas predictivos y capas web vectoriales renderizadas mediante una única URL de acceso.
+El producto consiste en una **aplicación web interactiva de alto impacto desarrollada en ArcGIS Experience Builder Developer Edition (TypeScript/React)**. Esta plataforma consume de forma segura servicios geográficos dinámicos que representan la **Red Semafórica, Accidente, Malla Vial y Accidentes**, publicados en la pasarela cloud de **ArcGIS Online**, permitiendo al usuario final interactuar de manera directa con capas web vectoriales renderizadas mediante una única URL de acceso. 
 
 La plataforma integra dos funcionalidades clave implementadas como widgets personalizados en el cliente:
 
-Widget Custom de DBSCAN: Permite al usuario seleccionar capas de puntos e ingresar de manera interactiva parámetros de radio de búsqueda (vecindario espacial) para calcular y renderizar en caliente agrupamientos de alta densidad de accidentalidad (clusters críticos de siniestros) procesados por el backend.
+1. **Widget Custom de DBSCAN:** Interfaz gráfica interactiva que permite al usuario seleccionar capas de puntos de siniestros viales e ingresar parámetros de radio de búsqueda (vecindario espacial) para enviar una petición de cómputo analítico al backend, renderizando en caliente y de manera instantánea agrupamientos de alta densidad de accidentalidad (*clusters* de siniestros) sobre el mapa.
+2. **Asistente IA Interactivo (Chat Bot FANZ-XA):** Un asistente conversacional integrado que lee directamente los atributos espaciales del mapa en la memoria del navegador del cliente (*Client-Side Memory*). Esto permite al usuario interactuar en lenguaje natural para consultar la información del territorio, analizar el contexto de las capas activas de infraestructura y siniestralidad, y recibir respuestas inteligentes para la toma de decisiones institucionales de forma ágil y unificada.
 
-Asistente IA Interactivo (Chat Bot / Simulador Preventivo): Un asistente conversacional integrado que lee la memoria de los atributos del mapa en el navegador del cliente y la combina con una calculadora SHAP (explicabilidad del modelo de IA) en el backend. Esto permite al usuario consultar factores de riesgo locales y simular escenarios preventivos (como simular la instalación de un semáforo) recibiendo aportes porcentuales explicativos y respuestas en lenguaje natural.
-
-La plataforma apoya la toma de decisiones institucionales facilitando la exploración de zonas prioritarias a través de un flujo de control unificado, ágil y centrado completamente en la experiencia del usuario final.
+La plataforma apoya la toma de decisiones institucionales facilitando la exploración de zonas prioritarias a través de un flujo de control unificado, ágil y centrado completamente en la experiencia del usuario final que consume la aplicación mediante el Experience Builder.
