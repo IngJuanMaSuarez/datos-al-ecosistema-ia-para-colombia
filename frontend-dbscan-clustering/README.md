@@ -15,36 +15,6 @@ de búsqueda y visualizar los clusters de alta densidad directamente en el mapa.
 
 ---
 
-## Arquitectura
-
-```mermaid
-graph TD
-    subgraph ExperienceBuilder["ArcGIS Experience Builder"]
-        Widget["widget.tsx<br/>Componente React (Runtime)"]
-        Setting["setting.tsx<br/>Panel de Configuración"]
-        Config["config.ts<br/>Interfaz IMConfig"]
-    end
-
-    subgraph ArcGISAPI["ArcGIS Maps SDK for JavaScript"]
-        MapView["MapView / JimuMapView"]
-        GL["GraphicsLayer<br/>Resultados DBSCAN"]
-        FeatureLayer["FeatureLayer<br/>Capa de siniestros"]
-    end
-
-    subgraph Backend["Backend Node.js"]
-        API["POST /api/cluster"]
-    end
-
-    Config -->|"serviceUrl, defaultRadius"| Widget
-    Setting -->|"persiste configuración"| Config
-    Widget -->|"consulta puntos (WGS84)"| FeatureLayer
-    Widget -->|"fetch POST<br/>{coordinates, radius}"| API
-    API -->|"response: FeatureCollection<br/>etiquetado (core/edge/noise)"| Widget
-    Widget -->|"Graphics.draw()"| GL
-    Widget -->|"usa"| MapView
-    MapView -->|"activeView"| Widget
-```
-
 **Flujo de datos:**
 1. El widget descubre automáticamente las capas de puntos del mapa
 2. El usuario selecciona una capa y define el radio de búsqueda
