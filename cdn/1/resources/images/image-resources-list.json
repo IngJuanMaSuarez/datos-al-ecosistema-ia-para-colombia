@@ -1,0 +1,28 @@
+{
+  "1783372031331": {
+    "originalName": "ChatGPT Image 6 jul 2026, 04_07_02 p.m..png",
+    "fileName": "1783372031331.png",
+    "size": 1574417,
+    "url": "${appResourceUrl}/images/widget_12/1783372031331.png",
+    "created": 1783372031331,
+    "resourcesPrefix": "images/widget_12",
+    "referredIds": [],
+    "originId": "1783372031331",
+    "fileFormat": "image/png",
+    "originalWidth": 1254,
+    "originalHeight": 1254
+  },
+  "1784079380133": {
+    "originalName": "ChatGPT Image 14 jul 2026, 20_35_02.png",
+    "fileName": "1784079380133.png",
+    "size": 1475349,
+    "url": "${appResourceUrl}/images/widget_38/1784079380133.png",
+    "created": 1784079380133,
+    "resourcesPrefix": "images/widget_38",
+    "referredIds": [],
+    "originId": "1784079380133",
+    "fileFormat": "image/png",
+    "originalWidth": 1254,
+    "originalHeight": 1254
+  }
+}
