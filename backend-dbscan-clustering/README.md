@@ -10,8 +10,7 @@
 
 Servicio de análisis espacial que recibe puntos geográficos y un radio de búsqueda
 desde el **widget DBSCAN Clustering de ArcGIS Experience Builder**, aplica el
-algoritmo **DBSCAN** con una **implementación optimizada propia** (R-tree con RBush
-+ filtro circular con Turf.js) y devuelve los resultados etiquetados para
+algoritmo **DBSCAN** con una **implementación optimizada propia** (R-tree con RBush + filtro circular con Turf.js) y devuelve los resultados etiquetados para
 visualización interactiva en el frontend.
 
 > **Nota técnica:** A diferencia de usar `@turf/clusters-dbscan` directamente (que
