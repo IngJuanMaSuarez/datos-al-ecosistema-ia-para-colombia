@@ -1,31 +1,33 @@
 # Concurso Datos al Ecosistema 2026: IA para Colombia
 
-**Sistema de análisis y agrupamiento de accidentalidad vial basado en inteligencia artificial y análisis espacial**
+**Sistema de clustering espacial DBSCAN y asistente IA para análisis de accidentalidad vial en Bogotá**
 
 [![ArcGIS Experience Builder](https://img.shields.io/badge/ArcGIS%20Experience%20Builder-1.20-blue)](https://developers.arcgis.com/experience-builder/)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/typescript-5.5-blue)](https://www.typescriptlang.org/)
-[![Python](https://img.shields.io/badge/python-3.11-yellow)](https://www.python.org/)
+[![Express](https://img.shields.io/badge/express-4.19-lightgrey)](https://expressjs.com/)
 
 ---
 
 ## Descripción del proyecto
 
-Plataforma web geoespacial que integra datos abiertos del gobierno colombiano (Red Semafórica, Siniestros Viales, Malla Vial, Accidentes) con inteligencia artificial para detectar patrones territoriales de riesgo de accidentalidad en Bogotá.
+Plataforma web geoespacial construida sobre **ArcGIS Experience Builder Developer Edition** que integra dos funcionalidades principales sobre datos de siniestros viales de Bogotá:
 
-La aplicación se construye sobre **ArcGIS Experience Builder Developer Edition** con dos widgets personalizados: un **asistente IA conversacional** que responde preguntas espaciales sobre el territorio y un **widget de clustering DBSCAN** que agrupa puntos de siniestros por densidad mediante un backend Node.js optimizado con R-tree (RBush).
+- **Widget DBSCAN Clustering** — Widget personalizado React/TypeScript que se conecta con un backend Node.js independiente para ejecutar clustering DBSCAN optimizado con R-tree (RBush) sobre capas de puntos, agrupándolos por densidad y visualizando los resultados coloreados directamente en el mapa.
+
+- **Asistente IA (Instant App embebido)** — Instant App de ArcGIS Online con un asistente conversacional de IA integrado dentro del Experience Builder. Lee los atributos del mapa en memoria (client-side) y permite al usuario consultar información del territorio en lenguaje natural, analizar el contexto de las capas activas y recibir respuestas inteligentes para la toma de decisiones.
 
 ---
 
 ## Cómo funciona
 
-El sistema sigue la metodología **CRISP-ML(Q)** en 5 capas desacopladas:
+El proyecto combina tres componentes que trabajan en conjunto:
 
-1. **Fuentes de Gobierno** — Datos abiertos de siniestros viales, red semafórica, malla vial y clima desde APIs oficiales colombianas (SIMUR, datos.gov.co, RUNT, IDEAM).
-2. **GIS Gateway** — Backend Node.js + Koop.js que indexa espacialmente los datos en una grilla de análisis y traduce entre formatos geoespaciales.
-3. **Backend Analítico** — Tres motores: predicción de riesgo (XGBoost/Random Forest), explicabilidad SHAP, y clustering DBSCAN.
-4. **Pasarela Cloud** — ArcGIS Online publica los servicios geográficos enriquecidos como Web Map con simbología predictiva.
-5. **Frontend** — ArcGIS Experience Builder Developer Edition renderiza el mapa interactivo con dos widgets personalizados.
+1. **Widget DBSCAN (Experience Builder)** — Un widget personalizado React + TypeScript que descubre automáticamente las capas de puntos del mapa, permite seleccionar una capa y configurar el radio de búsqueda en metros, consulta los puntos en coordenadas WGS84 y los envía al backend vía `POST /api/cluster`. Al recibir la respuesta, renderiza cada punto sobre una GraphicsLayer con color según su cluster (los puntos de ruido se marcan con aspas grises) y encuadra la vista a los resultados.
+
+2. **Backend DBSCAN (Node.js + Express)** — Servidor independiente que recibe coordenadas y radio, ejecuta el algoritmo DBSCAN utilizando un índice espacial R-tree (RBush) para optimizar las consultas de vecindad, y devuelve el FeatureCollection con cada punto clasificado como `core`, `edge` o `noise` más los metadatos del agrupamiento.
+
+3. **Asistente IA (Instant App)** — Una Instant App de ArcGIS Online embebida como widget dentro del Experience Builder. Utiliza un asistente conversacional de IA configurado desde ArcGIS Online que lee los atributos del mapa en memoria (client-side memory) para contextualizar las respuestas. El usuario puede interactuar en lenguaje natural preguntando sobre el territorio, las capas activas de infraestructura y siniestralidad, recibiendo respuestas inteligentes para apoyar la toma de decisiones institucionales.
 
 ---
 

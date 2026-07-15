@@ -42,7 +42,7 @@ La arquitectura de la solución se encuentra estructurada bajo el estándar de c
 
 ### **Capa 4: Interfaz de Usuario e Interacción (Frontend)**
 * **Fase CRISP-ML(Q):** *Deployment, Monitoring & Maintenance* (Despliegue, Monitoreo y Mantenimiento Continuo).
-* **Tecnología:** ArcGIS Experience Builder Developer Edition, React, TypeScript, ArcGIS Maps SDK for JavaScript.
+* **Tecnología:** ArcGIS Experience Builder Developer Edition, React, TypeScript.
 * **Responsabilidad:** Servir como el **único punto de entrada y consumo para el usuario final** mediante una sola URL interactiva. Renderiza la interfaz de usuario, gestiona el estado en caliente de la aplicación y conecta los widgets de TypeScript directamente con las fuentes geográficas y el backend analítico.
 * **Componentes Clave (Custom Widgets en TypeScript):**
   * **Visor de Mapa Web (ReactTS):** Renderiza el Web Map interactivo que contiene las capas de **Red Semafórica, Accidente, Malla Vial y Accidentes**. Modifica la memoria interna en el lado del cliente (*Client-Side Memory*) de acuerdo con las interacciones del mapa.
