@@ -35,7 +35,7 @@ La arquitectura de la solución se encuentra estructurada bajo el estándar **CR
 ### **Capa 3: Backend de Procesamiento y Machine Learning**
 * **Fase CRISP-ML(Q):** *Model Training & Evaluation* (Modelado y Evaluación).
 * **Tecnología:** Backend de Cómputo Analítico (Algoritmo DBSCAN).
-* **Responsabilidad:** Procesar en caliente las peticiones matemáticas de agrupamiento y densidades espaciales en coordenadas.
+* **Responsabilidad:** Procesar las peticiones matemáticas de agrupamiento y densidades espaciales en coordenadas.
 * **Flujo de Trabajo:** Recibe peticiones de tipo `POST` parametrizadas directamente desde el widget del cliente, ejecuta el algoritmo de Machine Learning DBSCAN para calcular vecindades geográficas basadas en el radio definido sobre los datos geográficos y retorna instantáneamente las geometrías de los *clusters* o puntos calientes identificados.
 
 ---
