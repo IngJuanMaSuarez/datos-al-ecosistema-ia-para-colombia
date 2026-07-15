@@ -31,6 +31,198 @@ El proyecto combina tres componentes que trabajan en conjunto:
 
 ---
 
+## Guía de uso local (paso a paso)
+
+### Prerrequisitos
+
+| Herramienta | Versión mínima | Descarga |
+|---|---|---|
+| **Node.js** | ≥ 20 | [nodejs.org](https://nodejs.org/) |
+| **npm** | ≥ 10 | Se instala con Node.js |
+| **Git** | — | [git-scm.com](https://git-scm.com/) |
+| **ArcGIS Experience Builder Developer Edition** | 1.20 | [developers.arcgis.com/experience-builder/guide/install-guide/](https://developers.arcgis.com/experience-builder/guide/install-guide/) |
+| **Cuenta ArcGIS Online** | — | [arcgis.com](https://www.arcgis.com/) (necesaria para feature layers y el Instant App) |
+
+---
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <url-del-repositorio>
+cd datos-al-ecosistema-ia-para-colombia
+```
+
+---
+
+### 2. Configurar y ejecutar el backend DBSCAN
+
+```bash
+# Entrar a la carpeta del backend
+cd backend-dbscan-clustering
+
+# Instalar dependencias
+npm install
+
+# (Opcional) Compilar TypeScript a JavaScript
+npm run build
+
+# Iniciar en modo desarrollo (con recarga en caliente)
+npm run dev
+```
+
+El servidor se levanta en `http://localhost:3002`. Verifica que funcione:
+
+```bash
+curl http://localhost:3002/health
+# → { "status": "ok" }
+```
+
+> El puerto 3002 evita conflicto con el puerto 3001 que usa el servidor HTTPS de Experience Builder.
+
+**Archivos importantes:**
+- `src/server.ts` — Rutas Express, CORS, validación de entrada
+- `src/dbscan.ts` — Implementación del algoritmo DBSCAN con RBush + Turf.js
+- `src/types.ts` — Interfaces `ClusterRequest`, `ClusterResponse`, `DbscanProperties`
+
+---
+
+### 3. Instalar ArcGIS Experience Builder Developer Edition
+
+Sigue la [guía oficial de instalación](https://developers.arcgis.com/experience-builder/guide/install-guide/):
+
+```bash
+# Descarga el zip desde la página de desarrolladores de ArcGIS
+# Extrae en la ubicación que prefieras, por ejemplo:
+C:\ArcGIS\ExperienceBuilder\
+
+# Entra a la carpeta
+cd ExperienceBuilder
+# o en macOS/Linux
+cd /ruta/a/ExperienceBuilder
+
+# Instala dependencias
+npm install
+
+# Inicia el servidor de desarrollo
+npm start
+```
+
+Esto inicia el servidor en `https://localhost:3001`. Abre esa URL en el navegador
+(acepta el certificado autofirmado).
+
+---
+
+### 4. Instalar el widget DBSCAN en Experience Builder
+
+```bash
+# Desde la raíz del proyecto, copia la carpeta del widget a la
+# carpeta de widgets de tu instalación de Experience Builder:
+
+# Windows (PowerShell)
+Copy-Item -Recurse frontend-dbscan-clustering C:\ArcGIS\ExperienceBuilder\client\your-extensions\widgets\
+
+# macOS / Linux
+cp -r frontend-dbscan-clustering /ruta/a/ExperienceBuilder/client/your-extensions/widgets/
+```
+
+> La carpeta `your-extensions/widgets/` debe crearse si no existe.
+> El widget se copia completo con su `manifest.json`, `config.json`, `icon.svg` y `src/`.
+
+Reinicia el servidor de Experience Builder (`Ctrl+C` y `npm start` nuevamente)
+para que detecte el nuevo widget.
+
+---
+
+### 5. Configurar el widget en el Builder
+
+1. Abre `https://localhost:3001` en el navegador
+2. Selecciona un **template** o crea una aplicación nueva
+3. En el modo **Builder** (diseño), agrega un **widget de mapa** al lienzo
+4. Agrega el widget **DBSCAN Clustering** al lienzo
+5. En el panel de **configuración del widget** (ícono de engranaje):
+   - **Widget de mapa**: selecciona el mapa que agregaste
+   - **URL del servicio**: `http://localhost:3002/api/cluster` (o la URL del backend desplegado)
+   - **Radio por defecto (m)**: `150`
+
+---
+
+### 6. Agregar capas de siniestros al mapa
+
+El widget DBSCAN trabaja con FeatureLayers de ArcGIS. Debes tener al menos una
+capa de puntos publicada en ArcGIS Online o en un ArcGIS Server:
+
+**Opción A — Usar datos abiertos (SIMUR):**
+
+Agrega esta capa REST directamente en el mapa del Experience Builder:
+```
+https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/WSAcidentalidad_Publico/FeatureServer
+```
+
+**Opción B — Publicar tu propia capa desde ArcGIS Online:**
+
+1. Inicia sesión en [ArcGIS Online](https://www.arcgis.com)
+2. Ve a **Contenido → Nuevo elemento → Capa de elementos**
+3. Sube un archivo GeoJSON o CSV con coordenadas de siniestros
+4. Publica como Feature Layer
+5. Agrega esa capa al mapa en el Experience Builder
+
+**Opción C — Usar el servicio del concurso (si está disponible):**
+
+```
+https://services2.arcgis.com/NEwhEo9GGSHXcRXV/ArcGIS/rest/services/Historico_Siniestros_Bogot_D_C/FeatureServer
+```
+
+---
+
+### 7. Usar el widget DBSCAN
+
+1. En el mapa, asegúrate de que la capa de puntos esté visible
+2. En el widget DBSCAN, selecciona la capa de puntos del desplegable
+3. Ajusta el **radio de búsqueda** (en metros). Valores recomendados:
+   - `100` — Clusters muy locales (micro-análisis por cuadra)
+   - `150` — Valor por defecto, balanceado
+   - `300` — Clusters a nivel de barrio
+   - `500` — Clusters a nivel de localidad
+4. Haz clic en **Ejecutar DBSCAN**
+5. Los clusters se renderizarán con colores y la vista se encuadrará automáticamente
+6. Usa **Limpiar** para remover los resultados
+
+---
+
+### 8. Configurar el Asistente IA (Instant App)
+
+El asistente IA funciona como una **Instant App de ArcGIS Online** embebida dentro
+del Experience Builder:
+
+1. Inicia sesión en [ArcGIS Online](https://www.arcgis.com)
+2. Ve a **Crear → Instant App** y elige una plantilla
+3. En la configuración de la app, ve a **Asistente de IA** (o **AI Assistant**)
+4. Configura:
+   - **Prompt del asistente**: define el contexto y comportamiento del chat
+   - **Capas de datos**: selecciona las capas del mapa que el asistente podrá leer
+   - **Origen de datos**: el mapa web de ArcGIS con las capas de siniestros
+5. Publica la Instant App y copia la URL o el código de embeber
+6. En Experience Builder, agrega un widget **Embed** o **Web Scene** y pega la URL
+   de la Instant App
+
+> Consulta la [documentación oficial de asistentes IA](https://doc.arcgis.com/es/arcgis-online/administer/configure-assistants.htm)
+> para más detalles sobre la configuración del chat conversacional.
+
+---
+
+### 9. Usar el backend desplegado (alternativa)
+
+Si no quieres ejecutar el backend localmente, puedes usar el servicio ya
+desplegado en Render. Solo cambia la URL en la configuración del widget a:
+
+```
+https://backend-clustering-tybg.onrender.com/api/cluster
+```
+
+> Verifica disponibilidad: [https://backend-clustering-tybg.onrender.com/health](https://backend-clustering-tybg.onrender.com/health)
+
+---
+
 ## Capturas de la aplicación
 
 ### Vista general de la aplicación
