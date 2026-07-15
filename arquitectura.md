@@ -34,7 +34,7 @@ La arquitectura de la solución se encuentra estructurada bajo el estándar de c
 
 ### **Capa 3: Backend Analítico (Machine Learning y Clustering)**
 * **Fase CRISP-ML(Q):** *Model Training & Evaluation* (Modelado y Evaluación).
-* **Tecnología:** Node.js, `@turf/clusters-dbscan` (Turf.js).
+* **Tecnología:** `@turf/clusters-dbscan` (Turf.js).
 * **Responsabilidad:** Procesar en caliente las peticiones matemáticas de agrupamiento y densidades espaciales en coordenadas.
 * **Flujo de Trabajo:** Recibe peticiones de tipo `POST` con la colección de puntos y parámetros de clustering (`maxDistance` y `minPoints`) enviados desde el widget de Experience Builder. Ejecuta el algoritmo **DBSCAN** de Turf.js en el servidor Node.js y retorna de inmediato la colección de entidades (*FeatureCollection*) con los clusters clasificados al cliente.
 
