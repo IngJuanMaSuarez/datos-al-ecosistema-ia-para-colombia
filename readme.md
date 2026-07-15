@@ -31,6 +31,35 @@ El proyecto combina tres componentes que trabajan en conjunto:
 
 ---
 
+## Capturas de la aplicación
+
+### Vista general de la aplicación
+
+![Interfaz inicial](images/ejemplo-interfaz-inicial.png)
+
+### Ejecución del clustering DBSCAN
+
+![Ejecución DBSCAN](images/ejemplo-ejecución-dbscan.png)
+
+### Asistente IA respondiendo consultas
+
+![Asistente IA](images/ejemplo-asistente-ia.png)
+
+---
+
+## Despliegue
+
+El **backend DBSCAN** está desplegado en Render y disponible en:
+
+| Recurso | URL |
+|---|---|
+| Healthcheck | [https://backend-clustering-tybg.onrender.com/health](https://backend-clustering-tybg.onrender.com/health) |
+| Endpoint de clustering | `POST https://backend-clustering-tybg.onrender.com/api/cluster` |
+
+El **frontend** (ArcGIS Experience Builder) corre de forma local con el servidor de desarrollo de Experience Builder Developer Edition (`npm start` en `https://localhost:3001`), o puede ser desplegado como una aplicación web estática en cualquier hosting.
+
+---
+
 ## Componentes del repositorio
 
 | Carpeta | Descripción | Documentación |

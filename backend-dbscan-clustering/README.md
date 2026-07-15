@@ -209,6 +209,18 @@ También se acepta un arreglo simple de coordenadas:
 }
 ```
 
+## Despliegue en producción
+
+El backend está desplegado en **Render** y disponible públicamente:
+
+| Recurso | URL |
+|---|---|
+| Healthcheck | [https://backend-clustering-tybg.onrender.com/health](https://backend-clustering-tybg.onrender.com/health) |
+| Endpoint de clustering | `POST https://backend-clustering-tybg.onrender.com/api/cluster` |
+
+> Esta URL es la que usa el widget por defecto (`config.json` → `serviceUrl`).
+> Para desarrollo local, usa `http://localhost:3002`.
+
 ### `GET /health`
 
 ```json
