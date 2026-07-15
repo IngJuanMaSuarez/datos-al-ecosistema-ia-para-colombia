@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # Concurso Datos al Ecosistema 2026: IA para Colombia
 
-**Sistema predictivo de accidentalidad vial con inteligencia artificial y análisis espacial**
+**Sistema de análisis y agrupamiento de accidentalidad vial basado en inteligencia artificial y análisis espacial**
 
 [![ArcGIS Experience Builder](https://img.shields.io/badge/ArcGIS%20Experience%20Builder-1.20-blue)](https://developers.arcgis.com/experience-builder/)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org/)
@@ -10,7 +9,15 @@
 
 ---
 
-## Diagrama de Arquitectura
+## Descripción del proyecto
+
+Plataforma web geoespacial que integra datos abiertos del gobierno colombiano (Red Semafórica, Siniestros Viales, Malla Vial, Accidentes) con inteligencia artificial para detectar patrones territoriales de riesgo de accidentalidad en Bogotá.
+
+La aplicación se construye sobre **ArcGIS Experience Builder Developer Edition** con dos widgets personalizados: un **asistente IA conversacional** que responde preguntas espaciales sobre el territorio y un **widget de clustering DBSCAN** que agrupa puntos de siniestros por densidad mediante un backend Node.js optimizado con R-tree (RBush).
+
+---
+
+## Diagrama de arquitectura
 
 ```mermaid
 graph TB
@@ -47,21 +54,16 @@ graph TB
         E4["Visor de Mapa<br/>React + TypeScript"]
     end
 
-    Capa1 -->|"CRISP-ML(Q): Business & Data Understanding"| Capa2
+    Capa1 -->|"Business & Data Understanding"| Capa2
     Capa2 -->|"Data Preparation & Feature Engineering"| Capa3
     Capa3 -->|"Model Training, Evaluation & Tuning"| Capa4
     Capa4 -->|"Model Deployment"| Capa5
     Capa5 -->|"Deployment, Monitoring & Maintenance"| Capa1
 
-    %% Flujo específico DBSCAN
     E2 -->|"POST /api/cluster<br/>{points, radius}"| C4
     C4 -->|"FeatureCollection<br/>core/edge/noise"| E2
-
-    %% Flujo Asistente IA
     E3 -->|"consulta SHAP"| C3
     C3 -->|"factores de riesgo<br/>explicación %"| E3
-
-    %% Conexiones entre capas
     B1 -->|"grilla indexada JSON"| C1
     C1 -->|"predicción de riesgo"| B1
     B1 -->|"GeoJSON dinámico"| D1
@@ -70,123 +72,30 @@ graph TB
 
 ---
 
-## Metodología: CRISP-ML(Q)
+## Cómo funciona
 
-El sistema sigue el estándar **CRISP-ML(Q)** (*CRoss-Industry Standard Process for Machine Learning with Quality Assurance*) en 5 capas desacopladas:
+El sistema sigue la metodología **CRISP-ML(Q)** en 5 capas desacopladas:
 
-### Capa 1: Orígenes de Datos (Gobierno)
-**Fase CRISP-ML(Q):** Comprensión del Negocio y de los Datos.
+1. **Fuentes de Gobierno** — Datos abiertos de siniestros viales, red semafórica, malla vial y clima desde APIs oficiales colombianas (SIMUR, datos.gov.co, RUNT, IDEAM).
+2. **GIS Gateway** — Backend Node.js + Koop.js que indexa espacialmente los datos en una grilla de análisis y traduce entre formatos geoespaciales.
+3. **Backend Analítico** — Tres motores: predicción de riesgo (XGBoost/Random Forest), explicabilidad SHAP, y clustering DBSCAN.
+4. **Pasarela Cloud** — ArcGIS Online publica los servicios geográficos enriquecidos como Web Map con simbología predictiva.
+5. **Frontend** — ArcGIS Experience Builder Developer Edition renderiza el mapa interactivo con dos widgets personalizados.
 
-Fuentes de datos abiertos colombianos consultadas al vuelo:
-| Fuente | Datos | URL |
+---
+
+## Componentes del repositorio
+
+| Carpeta | Descripción | Documentación |
 |---|---|---|
-| **SIMUR** | Histórico de siniestros viales (2007–2026) ~899k registros | `sig.simur.gov.co` |
-| **Datos Abiertos Colombia** | Siniestros consolidados, red semafórica | `datos.gov.co` |
-| **RUNT** | Vehículos involucrados en accidentes | `datos.gov.co` |
-| **IDEAM** | Precipitación, temperatura, humedad | `datos.gov.co` |
-
-### Capa 2: Backend de Orquestación y GIS Gateway
-**Fase CRISP-ML(Q):** Data Preparation.
-
-Tecnología: **Node.js + Koop.js** — Provider personalizado que:
-1. Intercepta la petición espacial (Bounding Box) desde el mapa
-2. Indexa los datos planos en una grilla de análisis estructurada
-3. Orquesta el backend analítico enviando la grilla indexada
-4. Expone la respuesta como GeoJSON / Esri JSON hacia ArcGIS Online
-
-### Capa 3: Backend de Inteligencia Artificial y Cómputo Analítico
-**Fase CRISP-ML(Q):** Model Training, Evaluation & Tuning.
-
-Tres motores analíticos:
-
-| Motor | Tecnología | Función |
-|---|---|---|
-| **Predicción de riesgo** | Python + FastAPI + XGBoost/Random Forest | Estima % de probabilidad y severidad de siniestros por celda |
-| **Explicabilidad SHAP** | Python + SHAP | Calcula qué variables impulsan la predicción en cada punto |
-| **Clustering DBSCAN** | Node.js + Turf.js + RBush | Agrupa puntos por densidad (widget interactivo) |
-
-### Capa 4: Pasarela Cloud y Web Map
-**Fase CRISP-ML(Q):** Model Deployment.
-
-Tecnología: **ArcGIS Online (AGOL)**.
-- Registra la URL del servidor Koop.js como un Item Web
-- Configura el Web Map con simbología predictiva condicional
-- Sirve capas enriquecidas de forma optimizada al cliente
-
-### Capa 5: Interfaz de Usuario (Frontend)
-**Fase CRISP-ML(Q):** Deployment, Monitoring & Maintenance.
-
-Tecnología: **ArcGIS Experience Builder Developer Edition** (React + TypeScript + ArcGIS Maps SDK for JavaScript).
-
-Componentes clave:
-- **Widget DBSCAN Clustering** — Selecciona capas de puntos, ejecuta DBSCAN en backend, renderiza resultados coloreados por cluster
-- **Asistente IA / Simulador Preventivo** — Chat conversacional que combina atributos del mapa con cálculos SHAP
-- **Visor de Mapa Web** — Renderiza el mapa predictivo con simbología condicional
+| `backend-dbscan-clustering/` | Backend Node.js/Express que ejecuta DBSCAN con índice espacial R-tree (RBush) para clustering de puntos geográficos | [README](backend-dbscan-clustering/README.md) |
+| `frontend-dbscan-clustering/` | Widget personalizado React/TypeScript para ArcGIS Experience Builder que envía puntos al backend y renderiza los clusters en el mapa | [README](frontend-dbscan-clustering/README.md) |
+| [`arquitectura.md`](arquitectura.md) | Documentación detallada de la arquitectura del sistema por capas |
+| [`datos.md`](datos.md) | Catálogo de fuentes de datos abiertos utilizados |
 
 ---
 
-## Repositorio
-
-```
-/
-├── backend-dbscan-clustering/    # Backend DBSCAN (Node.js, Express, RBush, Turf.js)
-│   ├── src/
-│   │   ├── server.ts             # Servidor Express (POST /api/cluster, GET /health)
-│   │   ├── dbscan.ts             # Implementación DBSCAN optimizada con R-tree
-│   │   └── types.ts              # Interfaces compartidas
-│   ├── dist/                     # Código compilado (JavaScript)
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── README.md
-│
-├── frontend-dbscan-clustering/   # Widget personalizado para ArcGIS Experience Builder
-│   ├── src/
-│   │   ├── config.ts             # Interfaz de configuración del widget
-│   │   ├── runtime/
-│   │   │   └── widget.tsx        # Componente principal (React runtime)
-│   │   └── setting/
-│   │       └── setting.tsx       # Panel de configuración (builder mode)
-│   ├── manifest.json             # Metadatos del widget
-│   ├── config.json               # Configuración por defecto
-│   └── README.md
-│
-├── arquitectura.md               # Documentación detallada de la arquitectura
-├── datos.md                      # Catálogo de fuentes de datos abiertos
-├── images/                       # Diagramas y capturas de pantalla
-├── LICENSE                       # Licencia Apache 2.0
-└── README.md                     # Este archivo
-```
-
----
-
-## Propuesta
-
-> **Sistema predictivo de accidentalidad vial basado en inteligencia artificial y análisis espacial**
-
-Desarrollo de un sistema de predicción espacial de accidentalidad vial que permite identificar y agrupar zonas urbanas con alta probabilidad de ocurrencia de siniestros antes de que estos sucedan. El sistema implementa una arquitectura desacoplada de alto rendimiento que orquesta e integra de forma asíncrona datos abiertos de gobierno (histórico de siniestros, red semafórica e infraestructura vial) con variables climáticas. Mediante la metodología estándar CRISP-DM (desde la preparación de datos hasta el despliegue), la iniciativa procesa la información a través de un backend dual (Node.js/Koop.js para indexación espacial en grilla y Python/FastAPI para cómputo de machine learning) para detectar patrones territoriales de riesgo de siniestralidad. Esto permite priorizar intervenciones urbanas preventivas y visualizar resultados analíticos de manera inmediata mediante una aplicación web interactiva georreferenciada.
-
----
-
-## Widgets Personalizados
-
-### DBSCAN Clustering
-
-Widget que permite al usuario seleccionar capas de puntos de siniestros e ingresar de manera interactiva el radio de búsqueda para calcular y renderizar en caliente agrupamientos de alta densidad. Implementa el algoritmo DBSCAN con una optimización basada en R-tree (RBush) para consultas de vecindad eficientes con miles de puntos.
-
-**Flujo:**
-1. El widget descubre capas de puntos en el mapa
-2. El usuario selecciona capa y radio → consulta puntos en WGS84
-3. Envío `POST /api/cluster` al backend
-4. Backend ejecuta DBSCAN con RBush + Turf.js
-5. Renderizado con colores por cluster y auto-zoom
-
-### Asistente IA Interactivo (Chat Bot / Simulador Preventivo)
-
-Asistente conversacional integrado que lee la memoria de los atributos del mapa en el navegador y la combina con una calculadora SHAP en el backend. Permite al usuario consultar factores de riesgo locales y simular escenarios preventivos (como instalar un semáforo virtual), recibiendo explicaciones porcentuales y respuestas en lenguaje natural.
-
----
-
-## Enlaces
+## Enlaces de interés
 
 | Recurso | URL |
 |---|---|
@@ -198,26 +107,4 @@ Asistente conversacional integrado que lee la memoria de los atributos del mapa 
 
 ## Licencia
 
-Este proyecto está licenciado bajo **Apache License 2.0** — ver el archivo [LICENSE](LICENSE) para más detalles.
-=======
-# Concurso Datos al Ecosistema 2026: IA para Colombia
-
-## Propuesta: Sistema de análisis y agrupamiento de accidentalidad vial basado en inteligencia artificial y análisis espacial
-
-**Desarrollo de un sistema de análisis espacial de accidentalidad vial** que permite identificar y agrupar zonas urbanas con alta densidad de siniestros para apoyar la toma de decisiones preventivas. El sistema implementa una arquitectura desacoplada de alto rendimiento que integra de manera directa datos geográficos oficiales correspondientes a la **Red Semafórica, Accidente, Malla Vial y Accidentes**. 
-
-Bajo el estándar metodológico **CRISP-ML(Q)** (abarcando desde la comprensión del negocio y de los datos hasta el despliegue en producción), la iniciativa procesa la información conectando las capas geográficas dinámicas de la pasarela cloud con un backend analítico de Machine Learning especializado en clustering espacial. Esto permite detectar de forma automatizada patrones territoriales de riesgo, priorizar intervenciones viales y visualizar los resultados de manera inmediata a través de una aplicación web interactiva basada en SIG.
-
----
-
-## Producto: Plataforma web geoespacial para el análisis y clustering de accidentalidad vial
-
-El producto consiste en una **aplicación web interactiva de alto impacto desarrollada en ArcGIS Experience Builder Developer Edition (TypeScript/React)**. Esta plataforma consume de forma segura servicios geográficos dinámicos que representan la **Red Semafórica, Accidente, Malla Vial y Accidentes**, publicados en la pasarela cloud de **ArcGIS Online**, permitiendo al usuario final interactuar de manera directa con capas web vectoriales renderizadas mediante una única URL de acceso. 
-
-La plataforma integra dos funcionalidades clave implementadas como widgets personalizados en el cliente:
-
-1. **Widget Custom de DBSCAN:** Interfaz gráfica interactiva que permite al usuario seleccionar capas de puntos de siniestros viales e ingresar parámetros de radio de búsqueda (vecindario espacial) para enviar una petición de cómputo analítico al backend, renderizando en caliente y de manera instantánea agrupamientos de alta densidad de accidentalidad (*clusters* de siniestros) sobre el mapa.
-2. **Asistente IA Interactivo (Chat Bot FANZ-XA):** Un asistente conversacional integrado que lee directamente los atributos espaciales del mapa en la memoria del navegador del cliente (*Client-Side Memory*). Esto permite al usuario interactuar en lenguaje natural para consultar la información del territorio, analizar el contexto de las capas activas de infraestructura y siniestralidad, y recibir respuestas inteligentes para la toma de decisiones institucionales de forma ágil y unificada.
-
-La plataforma apoya la toma de decisiones institucionales facilitando la exploración de zonas prioritarias a través de un flujo de control unificado, ágil y centrado completamente en la experiencia del usuario final que consume la aplicación mediante el Experience Builder.
->>>>>>> 58d3d16c12dc05a32c3f3e48f165ac1b3a6b3a0f
+**Apache License 2.0** — ver [LICENSE](LICENSE).
