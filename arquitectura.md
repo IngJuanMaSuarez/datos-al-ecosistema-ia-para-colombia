@@ -4,7 +4,7 @@
 ## 1. Visión General del Sistema
 El presente documento describe la arquitectura diseñada para el sistema predictivo de accidentalidad vial. El enfoque tecnológico garantiza la no duplicidad de datos estáticos, el uso de Inteligencia Artificial al vuelo y la escalabilidad del sistema, cumpliendo con los estándares de evaluación del concurso y la metodología CRISP-ML.
 
-<img width="8192" height="5864" alt="Untitled diagram-2026-07-14-035555" src="https://github.com/user-attachments/assets/30bf1f62-8590-490c-a940-345f70cef207" />
+<img width="8192" height="4426" alt="Usuario Final Experience-2026-07-15-001936" src="https://github.com/user-attachments/assets/bebbc51c-8d1e-46e5-81d5-4452379affbf" />
 
 
 ## 2. Metodología CRISP-ML (Flujo de Trabajo)
