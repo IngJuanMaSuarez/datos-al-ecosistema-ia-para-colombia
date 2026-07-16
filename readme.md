@@ -19,6 +19,18 @@ Plataforma web geoespacial construida sobre **ArcGIS Experience Builder Develope
 
 ---
 
+## Aplicación en vivo
+
+La aplicación se puede ver funcionando en la siguiente URL:
+
+**[https://argenherran.github.io/AplicacionAIRadarVial/](https://argenherran.github.io/AplicacionAIRadarVial/)**
+
+> Para usar el asistente de IA en el chat, inicia sesión con las credenciales:
+> - **Usuario:** `Test_MinTIC`
+> - **Contraseña:** `Test_MinTIC_123*`
+
+---
+
 ## Cómo funciona
 
 El proyecto combina tres componentes que trabajan en conjunto:
