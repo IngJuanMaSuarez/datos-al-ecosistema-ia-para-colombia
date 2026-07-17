@@ -284,11 +284,6 @@ El **frontend** (ArcGIS Experience Builder) corre de forma local con el servidor
 | Datos Abiertos Colombia | [datos.gov.co](https://www.datos.gov.co/) |
 
 ---
-
-## Licencia
-
-**Apache License 2.0** — ver [LICENSE](LICENSE).
-
 ## Beneficios y Escalabiidad del Proyecto
 
 ### Pilar 1 — Sostenibilidad Técnica
@@ -302,5 +297,11 @@ El segundo pilar es la escalabilidad nacional, y aquí está la clave de todo el
 ### Pilar 3 — Acción Pública y Valor Institucional
 
 No partimos de cero: Bogotá ya tiene información oficial de siniestralidad vial de sobra. Nuestro aporte fue decidir qué de esa información era realmente aprovechable, conectarla en tiempo real, y ponerla a trabajar dentro de un sistema de inteligencia artificial.
+
+---
+## Licencia
+
+**Apache License 2.0** — ver [LICENSE](LICENSE).
+
 
 
