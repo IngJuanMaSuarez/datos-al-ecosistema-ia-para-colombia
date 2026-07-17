@@ -6,29 +6,19 @@
 
 | Nombre | Espacialización | Formato | Temporalidad | Vigencia | Área de Estudio |
 |---|---|---|---|---|---|
-| Vehículos en un Accidente de Tránsito ley 2251-2022 | No se puede espacializar | API, CSV | Año y mes | 2022-2025 | Filtro a Bogotá |
 | Mortalidad por Accidentes de Tránsito | Agrupando por localidad | CSV | Año mes día y hora | 2015-2025 | Bogotá |
 | Siniestros Viales Consolidados Bogotá D.C. | Geocodificar direcciones | CSV | Año mes día y hora | 2015-2020 | Bogotá |
 | Histórico Siniestros Bogotá D.C | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP | Año mes día y hora | 2015-2021 | Bogotá |
 | Accidentalidad/Seguridad_Vial | Ya está espacializado | Rest | Año mes día y hora | 2015-2021 | Bogotá |
 | Red Semafórica de Bogotá D.C. | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP |  |  | Bogotá |
 | Mosaico de fotografías aéreas. Bogotá D.C. Año 2014 | Ya está espacializado | Rest, WMS |  | 2014 | Bogotá |
-| Precipitación | Geocodificar Coordeanadas | API, CSV | Año mes día y hora | 2018-2026 | Filtro a Bogotá |
+
 | Malla Vial Siniestralidad | Ya está espacializado | Rest |  |  | Bogotá |
 
 ---
 
 # Datos
 
-## Accidentalidad y Siniestralidad
-
-### Vehículos en un Accidente de Tránsito ley 2251-2022
-
-Presenta información reportada del RUNT sobre los vehículos involucrados en accidentes de tránsito, podemos filtrar a nivel de Bogotá y analizar aspectos de marca, tipo y modelo del vehículo involucrado. Reporta la fecha del accidente a escala de mes/año.
-
-[VEHICULOS INVOLUCRADOS EN UN ACCIDENTE DE TRANSITO LEY 2251-2022 | Datos Abiertos Colombia](https://www.datos.gov.co/Transporte/VEHICULOS-INVOLUCRADOS-EN-UN-ACCIDENTE-DE-TRANSITO/6jmc-vaxk/data_preview)
-
-![images/image.png](images/image.png)
 
 ### Mortalidad por Accidentes de Tránsito
 
@@ -102,14 +92,7 @@ Data ampliada en: [https://serviciosgis.catastrobogota.gov.co/arcgis/rest/servic
 
 ![images/image.png](images/image%2010.png)
 
-### Precipitación
 
-Datos de precipitación en estaciones en varias partes de Colombia incluyendo Bogotá. Tabla con reporte de coordenadas del punto donde se encuentra el sensor.
-También existen otros datasets con info de temp del aire y humedad del aire.
-
-[Precipitación | Datos Abiertos Colombia](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Precipitaci-n/s54a-sgyg/data_preview)
-
-![images/image.png](images/image%2011.png)
 
 ### **Malla Vial Siniestralidad**
 
