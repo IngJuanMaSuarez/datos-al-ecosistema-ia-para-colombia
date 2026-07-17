@@ -102,8 +102,8 @@ Data ampliada en: [https://serviciosgis.catastrobogota.gov.co/arcgis/rest/servic
 ![images/image.png](images/image%2012.png)
 
 
-### *Hospitales**
+### **Hospitales**
 
 https://www.ideca.gov.co/recursos/mapas/red-adscrita-de-salud-para-bogota-dc
 
-![images/image.png](images/image%2012.png)
+
