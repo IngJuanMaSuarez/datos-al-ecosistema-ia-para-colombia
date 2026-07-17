@@ -12,7 +12,6 @@
 | Accidentalidad/Seguridad_Vial | Ya está espacializado | Rest | Año mes día y hora | 2015-2021 | Bogotá |
 | Red Semafórica de Bogotá D.C. | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP |  |  | Bogotá |
 | Mosaico de fotografías aéreas. Bogotá D.C. Año 2014 | Ya está espacializado | Rest, WMS |  | 2014 | Bogotá |
-
 | Malla Vial Siniestralidad | Ya está espacializado | Rest |  |  | Bogotá |
 
 ---
@@ -33,6 +32,7 @@ Caracterización de accidentes y personas involucradas en choques, factores rele
 Tablas desglosando siniestros viales en Bogotá con reportes de ubicación en dirección, fecha (reportando hasta la hora), vehículos, actor vial, e hipótesis. Lapso 2015-2020. Excel
 
 [Siniestros Viales Consolidados Bogotá D.C. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Siniestros-Viales-Consolidados-Bogot-D-C-/v7vs-yuff/about_data)
+DataBack: https://www.datos.gov.co/dataset/Historico-Siniestros-Bogot-D-C/p8rf-ajm9/about_data
 
 ![images/image.png](images/image%202.png)
 
