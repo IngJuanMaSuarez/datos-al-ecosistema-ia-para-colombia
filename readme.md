@@ -288,3 +288,19 @@ El **frontend** (ArcGIS Experience Builder) corre de forma local con el servidor
 ## Licencia
 
 **Apache License 2.0** — ver [LICENSE](LICENSE).
+
+## Beneficios y Escalabiidad del Proyecto
+
+### Pilar 1 — Sostenibilidad Técnica
+
+> "El primer pilar es la sostenibilidad técnica. Nuestra arquitectura es serverless y de bajo consumo de recursos: el backend de clustering es una API independiente que no exige duplicar y mantenimiento de bases de datos ni mantener infraestructura pesada. Esto significa que el costo de operar y mantener el sistema en el tiempo es mínimo.
+
+### Pilar 2 — Escalabilidad Nacional
+
+> "El segundo pilar es la escalabilidad nacional, y aquí está la clave de todo el diseño: trabajamos con parametrización en coordenadas WGS84, el estándar geográfico universal. Eso quiere decir que hoy el sistema analiza Bogotá, pero mañana puede analizar Medellín, Cali o cualquier municipio de Colombia, o incluso todo Colombia, simplemente modificando un solo endpoint — no reescribiendo el sistema. No construimos una solución para Bogotá; construimos una solución para Colombia que hoy demostramos en Bogotá."
+
+### Pilar 3 — Acción Pública y Valor Institucional
+
+> "Y el tercer pilar e
+
+
