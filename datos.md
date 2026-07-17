@@ -13,6 +13,7 @@
 | Red Semafórica de Bogotá D.C. | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP |  |  | Bogotá |
 | Mosaico de fotografías aéreas. Bogotá D.C. Año 2014 | Ya está espacializado | Rest, WMS |  | 2014 | Bogotá |
 | Malla Vial Siniestralidad | Ya está espacializado | Rest |  |  | Bogotá |
+| Hospitales en Bogotá | Ya está espacializado | Rest |  |  | Bogotá |
 
 ---
 
@@ -97,5 +98,12 @@ Data ampliada en: [https://serviciosgis.catastrobogota.gov.co/arcgis/rest/servic
 ### **Malla Vial Siniestralidad**
 
 [Accidentalidad/MallaVialSiniestralidad (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/MallaVialSiniestralidad/FeatureServer)
+
+![images/image.png](images/image%2012.png)
+
+
+### *Hospitales**
+
+https://www.ideca.gov.co/recursos/mapas/red-adscrita-de-salud-para-bogota-dc
 
 ![images/image.png](images/image%2012.png)
