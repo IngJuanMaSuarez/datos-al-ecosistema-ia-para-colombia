@@ -270,8 +270,8 @@ El **frontend** (ArcGIS Experience Builder) corre de forma local con el servidor
 |---|---|---|
 | `backend-dbscan-clustering/` | Backend Node.js/Express que ejecuta DBSCAN con índice espacial R-tree (RBush) para clustering de puntos geográficos | [README](backend-dbscan-clustering/README.md) |
 | `frontend-dbscan-clustering/` | Widget personalizado React/TypeScript para ArcGIS Experience Builder que envía puntos al backend y renderiza los clusters en el mapa | [README](frontend-dbscan-clustering/README.md) |
-| [`arquitectura.md`](arquitectura.md) | Documentación detallada de la arquitectura del sistema por capas |
-| [`datos.md`](datos.md) | Catálogo de fuentes de datos abiertos utilizados |
+| [`arquitectura.md`](/documentation/arquitectura.md) | Documentación detallada de la arquitectura del sistema por capas |
+| [`datos.md`](/documentation/datos.md) | Catálogo de fuentes de datos abiertos utilizados |
 
 ---
 
