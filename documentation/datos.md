@@ -1,7 +1,5 @@
 # Concurso Datos al Ecosistema 2026: IA para Colombia
 
----
-
 ## Descripción de los Datos
 
 | Nombre | Entidad | Formatos | Link |
@@ -17,41 +15,105 @@
 # Detalle de los Datos
 
 
-### Accidentes de Tránsito
+## Accidentes de Tránsito
 
-Servicio geográfico REST (FeatureServer) publicado por la Secretaría Distrital de Movilidad a través del SIMUR (Sistema Integrado de Información sobre Movilidad Urbano Regional). Contiene la información georreferenciada de los accidentes de tránsito (siniestros viales) ocurridos en Bogotá desde el año 2007 a la fecha. Además de la capa principal de siniestros, incluye las capas de eventos con muertos y con heridos, y tablas relacionadas de vía, vehículo, causa y actor vial. La fuente original es la Oficina de Información Sectorial de la SDM (Dirección de Estadística). Es el insumo central del proyecto para el análisis de densidad y clustering de accidentalidad.
+Este servicio de entidades recopila el histórico de siniestros de tránsito registrados en Bogotá D.C., con información útil para la consulta, seguimiento y análisis territorial de los eventos viales.
+
+**Contenido**
+* Historico Siniestros Bogotá D.C.: capa con registros de accidentes de tránsito y sus principales atributos descriptivos, incluyendo fecha y hora de ocurrencia, dirección, gravedad, clase de accidente y localidad.
+
+**Cobertura geográfica**
+* La información se concentra en Bogotá D.C. y permite identificar la distribución espacial de los siniestros dentro del territorio urbano.
+
+**Usos**
+* Análisis de seguridad vial y siniestralidad.
+* Identificación de patrones espaciales y temporales de accidentes.
+* Apoyo a estudios de movilidad, planeación urbana y gestión del tránsito.
+* Consulta operativa de eventos viales históricos.
 
 [Link](https://www.simur.gov.co/visor-geografico)
 
 ![images/image.png](../images/image%2015.png)
 
-### Malla Vial
+## Malla Vial
 
-Servicio geográfico REST (FeatureServer) de la Secretaría Distrital de Movilidad (SIMUR) compuesto por geometrías de tipo línea (polilíneas) que representan los tramos de la malla vial asociados a la siniestralidad de Bogotá. Permite operaciones de consulta y exportación a múltiples formatos (GeoJSON, Shapefile, CSV, SQLite) sobre el sistema de coordenadas geográficas WGS84 (MAGNA-SIRGAS). Aporta el contexto de la red vial sobre la cual ocurren los siniestros, útil para relacionar los clusters con la infraestructura de vías.
+Este servicio reúne una capa lineal de la malla vial integral de Bogotá D.C. y concentra atributos para la identificación, nomenclatura y operación de cada segmento vial. La información facilita la consulta y gestión de la red de vías urbanas en la capital.
+
+**Contenido**
+* Identificación vial: referencias y códigos para reconocer cada calzada dentro del sistema vial.
+* Nomenclatura y denominación: nombre de la vía, nombres alternativos y elementos de nomenclatura principal y generadora.
+* Características operativas: sentido de circulación, nivel de la vía, estado funcional, número de carriles, ancho de calzada y velocidad de operación.
+* Condiciones de movilidad: atributos relacionados con ciclorruta, restricción por carga, estacionamiento en vía, tráfico calmado, redes peatonales seguras, transporte masivo y monitoreo.
+* Referencia territorial: datos de municipio y cuadrante de nomenclatura para apoyar la localización urbana.
+
+**Cobertura geográfica**
+* La capa se enfoca en la red vial urbana de Bogotá D.C. y respalda procesos de cartografía, planeación y administración de infraestructura vial en la ciudad.
+
+**Usos**
+* Consulta y visualización de la red vial integral.
+* Gestión de nomenclatura y denominación de vías.
+* Análisis de conectividad, movilidad y condiciones de circulación.
+* Soporte para aplicaciones de transporte y administración urbana.
 
 [Link](https://www.ideca.gov.co/recursos/mapas/malla-vial-integral-bogota-dc)
 
 ![images/image.png](../images/image%2012.png)
 
-### Red Semafórica
+## Red Semafórica
 
-Conjunto de datos abiertos que representa la red semafórica de la ciudad, compuesta por los semáforos: dispositivos mediante los cuales se regula la circulación de vehículos, bicicletas y peatones en la vía. Los datos son originados por la Secretaría Distrital de Movilidad (SDM) y publicados en el portal Datos Abiertos Colombia del MinTIC, disponibles en formatos CSV, GeoJSON, KML, SHP y servicio REST de ArcGIS. Constituye un factor de contexto interesante a validar frente a la accidentalidad, al ubicar los puntos de regulación del tránsito respecto a las zonas de mayor siniestralidad.
+Este servicio de entidades reúne el inventario geográfico de la red semafórica de Bogotá y centraliza información descriptiva y operativa sobre los dispositivos instalados en la ciudad. Su contenido apoya la consulta, administración y seguimiento de la infraestructura semafórica urbana.
+
+**Contenido**
+* La capa representa ubicaciones de semáforos y su información asociada, incluyendo datos de identificación, dirección, localidad, equipo, ubicación, fecha de instalación, estado operativo y elementos vinculados con su funcionamiento e implementación. También integra atributos relacionados con la configuración de grupos de señal, fases, tipos de intersección y condiciones de operación para respaldar la gestión vial y de movilidad.
+
+**Cobertura geográfica**
+* La información corresponde a Bogotá y ofrece una visión municipal de la infraestructura de control de tráfico de la ciudad.
+
+**Usos**
+* Inventario y consulta de semáforos urbanos.
+* Apoyo a la gestión del tráfico y la movilidad.
+* Seguimiento de condiciones operativas de la red semafórica.
+* Integración con proyectos de planeación y mantenimiento vial.
 
 [Link](https://datosabiertos-movilidadbogota.hub.arcgis.com/search?groupIds=b424415b914d465899cfb2135671226d)
 
 ![images/image.png](../images/image%209.png)
 
-### Hospitales
+## Hospitales
 
-Recurso geográfico disponible en la Infraestructura de Datos Espaciales para el Distrito Capital (IDECA) que georreferencia las Instituciones Prestadoras de Salud (IPS) de Bogotá: entidades, asociaciones o personas de naturaleza pública, privada o de economía mixta, habilitadas para prestar los servicios y procedimientos del Plan Obligatorio de Salud en los regímenes contributivo y subsidiado. Su fuente es la Secretaría Distrital de Salud y se ofrece en formatos GeoJSON, Shapefile, GeoPackage, KMZ y DXF, además de servicios OGC (WMS, WFS) y REST. Permite evaluar la cercanía de la atención hospitalaria frente a las zonas de accidentalidad.
+Este servicio de entidades contiene información de hospitales en Colombia y concentra datos básicos de identificación, ubicación y contacto de cada establecimiento. El contenido permite consultar y gestionar registros de prestadores hospitalarios dentro de un entorno SIG.
+
+**Contenido**
+* Capa de puntos con registros de hospitales, incluyendo nombre o razón social, dirección, teléfono, fax, correo electrónico, identificación tributaria y atributos relacionados con el prestador y su clasificación.
+
+**Cobertura geográfica**
+* La información corresponde a hospitales ubicados en Colombia y se presenta como una capa útil para análisis y consulta a escala nacional.
+
+**Usos**
+* Consulta de establecimientos hospitalarios y sus datos de contacto.
+Apoyo a catálogos de prestadores de servicios de salud.
+Integración en mapas temáticos y aplicaciones de localización de servicios de salud.
+Gestión de directorios institucionales y análisis territorial del sector salud.
 
 [Link](https://www.ideca.gov.co/recursos/mapas/instituciones-prestadoras-de-salud-bogota)
 
 ![images/image.png](../images/image%2013.png)
 
-### Localidades
+## Localidades
 
-Recurso geográfico de la Infraestructura de Datos Espaciales para el Distrito Capital (IDECA) que representa la división política, administrativa y territorial del Distrito Capital por localidades, con competencias claras y criterios de financiación y aplicación de recursos. Su fuente es la Secretaría Distrital de Planeación y se distribuye en formatos GPKG, GeoJSON, Shapefile, KMZ y DXF, además de servicios WMS, WFS y Esri REST. Sirve como capa de agregación territorial para analizar y comparar la siniestralidad entre las distintas localidades de la ciudad.
+Este servicio de entidades reúne información geográfica de localidades con su referencia administrativa asociada. Presenta unidades territoriales que permiten identificar, consultar y representar ámbitos locales mediante su nombre, código y atributos de superficie y perímetro vinculados a la geometría de cada entidad.
+
+**Contenido**
+* Capa poligonal que organiza las localidades administrativas y sus atributos descriptivos y geométricos para apoyar la consulta territorial y la elaboración de cartografía temática.
+
+**Cobertura geográfica**
+* El servicio cubre un entorno regional de Colombia con alcance local y municipal, útil para la representación de límites y la organización espacial de unidades administrativas.
+
+**Usos**
+* Consulta de localidades por nombre o código.
+* Apoyo a cartografía administrativa y urbana.
+* Referencia espacial para planeación y análisis territorial.
+* Exploración de límites en visores y aplicaciones SIG.
 
 [Link](https://www.ideca.gov.co/recursos/mapas/localidad-bogota-dc)
 
