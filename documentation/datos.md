@@ -6,54 +6,24 @@
 
 | Nombre | Espacialización | Formato | Temporalidad | Vigencia | Área de Estudio |
 |---|---|---|---|---|---|
-| Histórico Siniestros Bogotá D.C | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP | Año mes día y hora | 2015-2021 | Bogotá |
-| Accidentalidad/Seguridad_Vial | Ya está espacializado | Rest | Año mes día y hora | 2015-2021 | Bogotá |
-| Red Semafórica de Bogotá D.C. | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP |  |  | Bogotá |
+| Siniestralidad | Ya está espacializado | Rest | Año mes día y hora | 2015-2021 | Bogotá |
 | Malla Vial Siniestralidad | Ya está espacializado | Rest |  |  | Bogotá |
-| Hospitales en Bogotá | Ya está espacializado | Rest |  |  | Bogotá |
+| Red Semafórica de Bogotá D.C. | Ya está espacializado | CSV, GeoJSON, KML, Rest, SHP |  |  | Bogotá |
+| Hospitales en Bogotá | Ya está espacializado | GeoJSON |  |  | Bogotá |
+| Localidades en Bogotá | Ya está espacializado | GeoJSON |  |  | Bogotá |
 
 ---
 
 # Detalle de los Datos
 
 
-### Histórico Siniestros Bogotá D.C
-
-Rest con información de los siniestros en Bogotá desde 2015 a 2021. 209k registros.
-
-Data ampliada en: [https://services2.arcgis.com/NEwhEo9GGSHXcRXV/ArcGIS/rest/services](https://services2.arcgis.com/NEwhEo9GGSHXcRXV/ArcGIS/rest/services)
-
-[Historico Siniestros Bogotá D.C | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Historico-Siniestros-Bogot-D-C/3v2w-chcq/about_data)
-
-![images/image.png](../images/image%206.png)
-
-### Accidentalidad/Seguridad_Vial
-
-Rest con información de la accidentalidad en Bogotá. No se encuentra en la página de datos abiertos. Reporta los accidentes desde 2007 hasta 2026. 899k registros. También tiene una tabla con información de actor vial.
-
-Data ampliada en: [https://sig.simur.gov.co/arcgis/rest/services](https://sig.simur.gov.co/arcgis/rest/services)
-
-[Accidentalidad/Seguridad_Vial (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/Seguridad_Vial/FeatureServer)
-
-![images/image.png](../images/image%207.png)
-
-### Accidentalidad Publico
+### Siniestralidad
 
 Este servicio contiene la información georreferenciada de los Accidentes de Transito ocurridos en Bogota desde el año 2007 a la fecha.
 
-[Accidentalidad/WSAcidentalidad_Publico (FeatureServer)](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/WSAcidentalidad_Publico/FeatureServer)
+[Accidentalidad/WSAcidentalidad_Publico (FeatureServer)](https://www.simur.gov.co/visor-geografico)
 
-![images/image.png](../images/image%208.png)
-
-### Red Semafórica de Bogotá D.C.
-
-Rest, puntos con los semáforos de Bogotá, puede ser un factor interesante a validar.
-
-Data ampliada en: [https://sig.simur.gov.co/arcgis/rest/services](https://sig.simur.gov.co/arcgis/rest/services)
-
-[Red Semafórica de Bogotá D.C. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Red-Semaf-rica-de-Bogot-D-C-/2gfp-jiqi/about_data)
-
-![images/image.png](../images/image%209.png)
+![images/image.png](../images/image%2015.png)
 
 ### Malla Vial Siniestralidad
 
@@ -61,9 +31,23 @@ Data ampliada en: [https://sig.simur.gov.co/arcgis/rest/services](https://sig.si
 
 ![images/image.png](../images/image%2012.png)
 
+### Red Semafórica de Bogotá D.C.
+
+Rest, puntos con los semáforos de Bogotá, puede ser un factor interesante a validar.
+
+[Red Semafórica de Bogotá D.C. | Datos Abiertos Colombia](https://www.datos.gov.co/dataset/Red-Semaf-rica-de-Bogot-D-C-/8xni-6k4w/about_data)
+
+![images/image.png](../images/image%209.png)
 
 ### Hospitales
 
-https://www.ideca.gov.co/recursos/mapas/red-adscrita-de-salud-para-bogota-dc
+[Red Adscrita de Salud](https://www.ideca.gov.co/recursos/mapas/instituciones-prestadoras-de-salud-bogota)
 
+![images/image.png](../images/image%2013.png)
+
+### Localidades Bogotá
+
+[Localidades Bogotá](https://www.ideca.gov.co/recursos/mapas/localidad-bogota-dc)
+
+![images/image.png](../images/image%2014.png)
 
