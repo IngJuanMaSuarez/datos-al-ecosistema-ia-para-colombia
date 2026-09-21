@@ -4,13 +4,13 @@
 
 ## Descripción de los Datos
 
-| Nombre | Entidad | Link |
-|---|---|---|
-| Accidentes de Tránsito | Secretaría Distrital de Movilidad a través del SIMUR - Sistema Integrado de Información sobre Movilidad Urbano Regional | [Ver fuente](https://www.simur.gov.co/visor-geografico) |
-| Malla Vial | Secretaría Distrital de Movilidad | [Ver fuente](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/MallaVialSiniestralidad/FeatureServer) |
-| Red Semafórica | Secretaría Distrital de Movilidad a través del portal de Datos Abiertos de la Secretaria Distrital de Movilidad | [Ver fuente](https://datosabiertos-movilidadbogota.hub.arcgis.com/search?groupIds=b424415b914d465899cfb2135671226d) |
-| Hospitales | Infraestructura de Datos Espaciales de la Capital (IDECA) | [Ver fuente](https://www.ideca.gov.co/recursos/mapas/instituciones-prestadoras-de-salud-bogota) |
-| Localidades | Infraestructura de Datos Espaciales de la Capital (IDECA) | [Ver fuente](https://www.ideca.gov.co/recursos/mapas/localidad-bogota-dc) |
+| Nombre | Entidad | Formatos | Link |
+|---|---|---|---|
+| Accidentes de Tránsito | Secretaría Distrital de Movilidad (SDM) a través del Sistema Integrado de Información sobre Movilidad Urbano Regional (SIMUR) | JSON, CSV, GeoJSON, Rest| [Ver fuente](https://www.simur.gov.co/visor-geografico) |
+| Malla Vial | Secretaría Distrital de Movilidad || [Ver fuente](https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/MallaVialSiniestralidad/FeatureServer) |
+| Red Semafórica | Secretaría Distrital de Movilidad (SDM) a través del portal de Datos Abiertos de la Secretaria Distrital de Movilidad | CSV, Shapefile, GeoJSON, KML, Rest | [Ver fuente](https://datosabiertos-movilidadbogota.hub.arcgis.com/search?groupIds=b424415b914d465899cfb2135671226d) |
+| Hospitales | Unidad Administrativa Especial de Catastro Distritala (UAECD) través de la Infraestructura de Datos Espaciales de la Capital (IDECA) | XLSX, CSV, JSON, GeoJSON, Rest | [Ver fuente](https://www.ideca.gov.co/recursos/mapas/instituciones-prestadoras-de-salud-bogota) |
+| Localidades | Unidad Administrativa Especial de Catastro Distrital (UAECD) a través de la Infraestructura de Datos Espaciales de la Capital (IDECA) | XLSX, CSV, JSON, GeoJSON, Rest | [Ver fuente](https://www.ideca.gov.co/recursos/mapas/localidad-bogota-dc) |
 
 ---
 
