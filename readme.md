@@ -178,12 +178,6 @@ https://sig.simur.gov.co/arcgis/rest/services/Accidentalidad/WSAcidentalidad_Pub
 4. Publica como Feature Layer
 5. Agrega esa capa al mapa en el Experience Builder
 
-**Opción C — Usar el servicio del concurso (si está disponible):**
-
-```
-https://services2.arcgis.com/NEwhEo9GGSHXcRXV/ArcGIS/rest/services/Historico_Siniestros_Bogot_D_C/FeatureServer
-```
-
 ---
 
 ### 7. Usar el widget DBSCAN
@@ -219,6 +213,29 @@ del Experience Builder:
 
 > Consulta la [documentación oficial de asistentes IA](https://doc.arcgis.com/es/arcgis-online/administer/configure-assistants.htm)
 > para más detalles sobre la configuración del chat conversacional.
+
+#### Prompts de ejemplo
+
+Una vez configurado, puedes interactuar con el asistente en lenguaje natural. Estos son algunos prompts de ejemplo para probar sus capacidades de navegación, consulta y análisis sobre las capas del mapa:
+
+**Navegación por el territorio**
+- `Acércate a Kennedy`
+- `Acércate a Bosa`
+- `Acércate al hospital el Tunal`
+
+**Consultas sobre infraestructura y datos**
+- `¿Cuántos hospitales hay en Kennedy?`
+- `Nombra los 18 hospitales`
+- `¿Cuántos semáforos hay en total en Bogotá?`
+
+**Consultas y filtros de siniestralidad**
+- `¿Cuántos accidentes ocurrieron en el año 2026?`
+- `Filtra los accidentes del año 2023`
+- `Filtra los accidentes de Tunjuelito`
+
+**Análisis espacial (proximidad)**
+- `Ubica los puntos a 200 metros del hospital el Tunal`
+- `Ubica los puntos a 500 metros del hospital de Kennedy`
 
 ---
 
